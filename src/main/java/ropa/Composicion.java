@@ -1,5 +1,5 @@
 package ropa;
 
-public class Composicion {
-
+public enum Composicion {
+  TELA, JEAN, CUERO // etc...
 }

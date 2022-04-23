@@ -1,6 +1,6 @@
 package ropa;
 
-public class MissingComponentException extends Exception {
+public class MissingComponentException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 

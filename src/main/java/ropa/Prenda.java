@@ -8,7 +8,7 @@ public class Prenda {
   private Color colorSecundario;
 
   public Prenda(TipoPrenda tipo, Categoria categoria, Composicion composicion, Color colorPrimario,
-      Color colorSecundario) throws MissingComponentException {
+      Color colorSecundario) {
     if (tieneComponentesImportantesNulos(tipo, composicion, categoria, colorPrimario)) {
       throw new MissingComponentException("Algun/os componentes de la ropa no existen!");
     }
