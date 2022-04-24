@@ -1,6 +1,7 @@
 # Compiled class file
 *.class
 
+
 # Log file
 *.log
 
@@ -29,3 +30,6 @@ target/**
 *.iml
 .idea/**
 /target/
+*.classpath
+*.project
+*log.txt

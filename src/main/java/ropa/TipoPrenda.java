@@ -4,7 +4,7 @@ public class TipoPrenda {
 
   private Categoria categoria;
 
-  public TipoPrenda(Categoria categoria) {
+  private TipoPrenda(Categoria categoria) {
     this.categoria = categoria;
   }
 
@@ -13,6 +13,6 @@ public class TipoPrenda {
   }
 
   // Podria pertenecer una prenda de un tipo a mas de una categoria...?
-  public TipoPrenda zapatos = new TipoPrenda(Categoria.CALZADO);
-  public TipoPrenda camisa = new TipoPrenda(Categoria.PARTE_SUPERIOR);
+  public static final TipoPrenda ZAPATOS = new TipoPrenda(Categoria.CALZADO);
+  public static final TipoPrenda CAMISA = new TipoPrenda(Categoria.PARTE_SUPERIOR);
 }
