@@ -4,26 +4,48 @@ public class Prenda {
 
   private TipoPrenda tipo;
   private Composicion composicion;
+  private Trama trama;
   private Color colorPrimario;
   private Color colorSecundario;
 
-  public Prenda(TipoPrenda tipo, Categoria categoria, Composicion composicion, Color colorPrimario,
-      Color colorSecundario) {
-    if (tieneComponentesImportantesNulos(tipo, composicion, categoria, colorPrimario)) {
-      throw new MissingComponentException("Algun/os componentes de la ropa no existen!");
-    }
+  public Prenda(TipoPrenda tipo) {
 
     this.tipo = tipo;
+    this.trama = Trama.LISA;
+    this.composicion = null;
+    this.colorPrimario = null;
+
+  }
+
+  /*
+   * No me gusta tener un getter solo para testear, pero por el momento no se me ocurre otra manera.
+   * Aca el problema creo que es que la trama de una prenda no hace "nada" y entonces no tengo
+   * manera de testear por algun metodo publico.
+   */
+
+  public Trama getTrama() {
+    return this.trama;
+  }
+
+  // Algun tipo de logica para verificar contra el tipo en estos...?
+
+  public void setColorPrimario(Color color) {
+
+    this.colorPrimario = color;
+  }
+
+  public void setColorSecundario(Color color) {
+    this.colorSecundario = color;
+  }
+
+  public boolean esPrendaValida() {
+    return (this.tipo != null && this.composicion != null && this.colorPrimario != null);
+  }
+
+  public void setComposicion(Composicion composicion) {
     this.composicion = composicion;
-    this.colorPrimario = colorPrimario;
-    this.colorSecundario = colorSecundario;
-
   }
 
-  private boolean tieneComponentesImportantesNulos(TipoPrenda tipo, Composicion composicion,
-      Categoria categoria, Color colorPrimario) {
 
-    return (tipo == null || composicion == null || categoria == null || colorPrimario == null);
-  }
 
 }
