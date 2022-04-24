@@ -30,6 +30,7 @@ target/**
 *.iml
 .idea/**
 /target/
-*.classpath
-*.project
-*log.txt
+
+.classpath
+.project
+log.txt
