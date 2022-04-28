@@ -46,6 +46,14 @@ public class Prenda {
     this.composicion = composicion;
   }
 
+  public void setTrama(Trama trama) {
+    this.trama = trama;
+  }
+
+  public boolean tieneCategoria(Categoria parteSuperior) {
+    return (this.tipo.getCategoria() == parteSuperior);
+  }
+
 
 
 }

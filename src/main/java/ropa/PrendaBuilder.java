@@ -9,17 +9,28 @@ public class PrendaBuilder {
   }
 
   // Esto se siento un poco como un pasamanos...
-  public void fijarColorPrimario(Color color) {
+  // Estas retornan un PrendaBuilder para poder hacer muchas llamadas en una linea.
+  public PrendaBuilder fijarColorPrimario(Color color) {
     prenda.setColorPrimario(color);
+    return this;
   }
 
-  public void fijarColorSecundario(Color color) {
+  public PrendaBuilder fijarColorSecundario(Color color) {
     prenda.setColorSecundario(color);
+    return this;
   }
 
-  public void fijarComposicion(Composicion composicion) {
+  public PrendaBuilder fijarComposicion(Composicion composicion) {
     prenda.setComposicion(composicion);
+    return this;
   }
+
+  public PrendaBuilder fijarTrama(Trama trama) {
+    prenda.setTrama(trama);
+    return this;
+
+  }
+
 
   public Prenda build() {
     if (prenda.esPrendaValida()) {
