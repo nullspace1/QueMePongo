@@ -8,46 +8,22 @@ public class Prenda {
   private Color colorPrimario;
   private Color colorSecundario;
 
-  public Prenda(TipoPrenda tipo) {
 
+  public Prenda(TipoPrenda tipo, Color colorPrimario, Color colorSecundario,
+      Composicion composicion, Trama trama) {
     this.tipo = tipo;
-    this.trama = Trama.LISA;
-    this.composicion = null;
-    this.colorPrimario = null;
-
+    this.colorPrimario = colorPrimario;
+    this.colorSecundario = colorSecundario;
+    this.composicion = composicion;
+    this.trama = trama;
   }
-
-  /*
-   * No me gusta tener un getter solo para testear, pero por el momento no se me ocurre otra manera.
-   * Aca el problema creo que es que la trama de una prenda no hace "nada" y entonces no tengo
-   * manera de testear por algun metodo publico.
-   */
 
   public Trama getTrama() {
     return this.trama;
   }
 
-  // Algun tipo de logica para verificar contra el tipo en estos...?
-
-  public void setColorPrimario(Color color) {
-
-    this.colorPrimario = color;
-  }
-
-  public void setColorSecundario(Color color) {
-    this.colorSecundario = color;
-  }
-
   public boolean esPrendaValida() {
     return (this.tipo != null && this.composicion != null && this.colorPrimario != null);
-  }
-
-  public void setComposicion(Composicion composicion) {
-    this.composicion = composicion;
-  }
-
-  public void setTrama(Trama trama) {
-    this.trama = trama;
   }
 
   public boolean tieneCategoria(Categoria parteSuperior) {

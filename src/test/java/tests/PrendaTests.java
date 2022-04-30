@@ -9,10 +9,10 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import prototype.AdministradorUniformes;
 import prototype.Uniforme;
+import ropa.Borrador;
 import ropa.Color;
 import ropa.Composicion;
 import ropa.Prenda;
-import ropa.PrendaBuilder;
 import ropa.PrendaInvalidaException;
 import ropa.TipoPrenda;
 import ropa.Trama;
@@ -20,10 +20,10 @@ import ropa.Trama;
 public class PrendaTests {
 
 
-
   @Test
   public void tramaPorDefaultEsLisa() {
-    PrendaBuilder prendaEnConstruccion = new PrendaBuilder(TipoPrenda.CAMISA);
+    Borrador prendaEnConstruccion = new Borrador(Trama.LISA);
+    prendaEnConstruccion.fijarTipo(TipoPrenda.CAMISA);
     prendaEnConstruccion.fijarColorPrimario(new Color(255, 0, 0));
     prendaEnConstruccion.fijarComposicion(Composicion.CUERO);
     Prenda prenda = prendaEnConstruccion.build();
@@ -32,7 +32,8 @@ public class PrendaTests {
 
   @Test
   public void buildearPrendaIncompletaExplota() {
-    PrendaBuilder prendaEnConstruccion = new PrendaBuilder(TipoPrenda.CAMISA);
+    Borrador prendaEnConstruccion = new Borrador(Trama.LISA);
+    prendaEnConstruccion.fijarTipo(TipoPrenda.CAMISA);
     prendaEnConstruccion.fijarComposicion(Composicion.CUERO);
     RuntimeException excepcion =
         assertThrows(PrendaInvalidaException.class, (() -> prendaEnConstruccion.build()));
@@ -68,30 +69,20 @@ public class PrendaTests {
 
 
   private Prenda prendaSuperior() {
-    return new PrendaBuilder(TipoPrenda.CAMISA).fijarColorPrimario(new Color(100, 100, 100))
-        .fijarComposicion(Composicion.CUERO).build();
+    return new Borrador(Trama.CUADRADO).fijarTipo(TipoPrenda.CAMISA)
+        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.CUERO).build();
   }
 
   private Prenda prendaInferior() {
-    return new PrendaBuilder(TipoPrenda.PANTALON).fijarColorPrimario(new Color(100, 100, 100))
-        .fijarComposicion(Composicion.JEAN).build();
+    return new Borrador(Trama.LISA).fijarTipo(TipoPrenda.PANTALON)
+        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.JEAN).build();
   }
 
   private Prenda calzado() {
-    return new PrendaBuilder(TipoPrenda.ZAPATOS).fijarColorPrimario(new Color(100, 100, 100))
-        .fijarComposicion(Composicion.CUERO).build();
+    return new Borrador(Trama.LISA).fijarTipo(TipoPrenda.ZAPATOS)
+        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.CUERO).build();
   }
 
-  // Iba a ser un test, pero resulto siendo mas un use case para orientarme. Lo dejo para
-  // facilitar la correcion del ejercicio.
-
-  public void testCreacionDePrenda() {
-    PrendaBuilder prendaEnConstruccion = new PrendaBuilder(TipoPrenda.CAMISA);
-    prendaEnConstruccion.fijarColorPrimario(new Color(255, 0, 0));
-    prendaEnConstruccion.fijarComposicion(Composicion.CUERO);
-    prendaEnConstruccion.fijarTrama(Trama.ESTAMPADO);
-    Prenda prendaResultante = prendaEnConstruccion.build();
-  }
 
 
 }
