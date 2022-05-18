@@ -4,7 +4,6 @@ import clima.Clima;
 import clima.InformanteClima;
 
 public class AtuendoSuggester{
-
     public Atuendo getSugerenciaDe(Guardaropa userGuardaropa){
         Clima climaActual = InformanteClima.getInstance().obtenerClimaEnBuenosAires();
         Guardaropa guardaropaAcordeAlClima = userGuardaropa.filtrarPrendasAcorde(climaActual);

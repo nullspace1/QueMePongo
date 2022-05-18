@@ -1,5 +1,7 @@
 package ropa;
 
+import clima.Clima;
+
 public class Prenda {
 
   private TipoPrenda tipo;
@@ -28,6 +30,7 @@ public class Prenda {
     return (this.tipo.getCategoria() == parteSuperior);
   }
 
-
-
+  public boolean satisfaceCondicionesDe(Clima climaActual) {
+    return climaActual.getTemperatura() < this.temperaturaMaxima;
+  }
 }
