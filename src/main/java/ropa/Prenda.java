@@ -8,22 +8,20 @@ public class Prenda {
   private Color colorPrimario;
   private Color colorSecundario;
 
+  private Double temperaturaMaxima;
+
 
   public Prenda(TipoPrenda tipo, Color colorPrimario, Color colorSecundario,
-      Composicion composicion, Trama trama) {
+      Composicion composicion, Trama trama,Double temperaturaMaxima) {
     this.tipo = tipo;
     this.colorPrimario = colorPrimario;
     this.colorSecundario = colorSecundario;
     this.composicion = composicion;
     this.trama = trama;
+    this.temperaturaMaxima = temperaturaMaxima;
   }
-
   public Trama getTrama() {
     return this.trama;
-  }
-
-  public boolean esPrendaValida() {
-    return (this.tipo != null && this.composicion != null && this.colorPrimario != null);
   }
 
   public boolean tieneCategoria(Categoria parteSuperior) {

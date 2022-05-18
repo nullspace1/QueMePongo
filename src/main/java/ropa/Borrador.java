@@ -8,6 +8,8 @@ public class Borrador {
   private Color colorPrimario;
   private Color colorSecundario;
 
+  private Double temperaturaMaxima;
+
   public Borrador(Trama tramaDefault) {
     this.trama = tramaDefault;
   }
@@ -39,6 +41,11 @@ public class Borrador {
 
   }
 
+  public Borrador fijarTemperaturaMaxima(Double temperaturaMaxima){
+    this.temperaturaMaxima = temperaturaMaxima;
+    return this;
+  }
+
   public boolean esPrendaValida() {
     return (this.tipo != null && this.composicion != null && this.colorPrimario != null);
   }
@@ -47,7 +54,7 @@ public class Borrador {
   public Prenda build() {
     if (esPrendaValida()) {
       return new Prenda(this.tipo, this.colorPrimario, this.colorSecundario, this.composicion,
-          this.trama);
+          this.trama,this.temperaturaMaxima);
     } else {
       throw new PrendaInvalidaException(
           "No se puede construir la prenda, tiene componentes faltantes!");

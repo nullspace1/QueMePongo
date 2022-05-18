@@ -66,8 +66,6 @@ public class PrendaTests {
     return new Uniforme(prendaSuperior, prendaInferior, calzado, institucion);
   }
 
-
-
   private Prenda prendaSuperior() {
     return new Borrador(Trama.CUADRADO).fijarTipo(TipoPrenda.CAMISA)
         .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.CUERO).build();
