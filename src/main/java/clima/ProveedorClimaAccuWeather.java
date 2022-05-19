@@ -12,13 +12,17 @@ public class ProveedorClimaAccuWeather implements ProveedorClima{
 
     @Override
     public List<Clima> getWeather(String lugar) {
-        List<Map<String, Object>> climateData = new AccuWeatherAPI().getWeather(lugar);
-        return climateData.stream().map(this::obtenerClima).collect(Collectors.toList());
+        List<Map<String, Object>> rawClimateData = new AccuWeatherAPI().getWeather(lugar);
+        return obtenerClimaDeRawData(rawClimateData);
+    }
+
+    public List<Clima> obtenerClimaDeRawData(List<Map<String,Object>> rawData){
+       return rawData.stream().map(this::obtenerClima).collect(Collectors.toList());
     }
 
 
     @Override
-    public int tiempoDeValidez() {
+    public int tiempoDeValidezDeDatos() {
         return 12;
     }
 

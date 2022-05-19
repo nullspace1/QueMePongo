@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Guardaropa {
@@ -19,10 +18,10 @@ public class Guardaropa {
     public Atuendo getSugerencia(){
         Clima climaActual = InformanteClima.getInstance().obtenerClimaEnBuenosAires();
         Guardaropa guardaropaAcordeAlClima = this.filtrarPrendasAcorde(climaActual);
-        return getSugerenciaFrom(guardaropaAcordeAlClima);
+        return tomarAtuendosDe(guardaropaAcordeAlClima);
     }
 
-    private Atuendo getSugerenciaFrom(Guardaropa guardaropaAcordeAlClima) {
+    private Atuendo tomarAtuendosDe(Guardaropa guardaropaAcordeAlClima) {
         Atuendo atuendo = new Atuendo();
         guardaropaAcordeAlClima.prendasDisponibles.forEach((k,v) -> atuendo.agregarPrenda(v.stream().findAny().get()));
         return atuendo;

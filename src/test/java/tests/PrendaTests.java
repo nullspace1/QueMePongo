@@ -39,7 +39,7 @@ public class PrendaTests {
     prendaEnConstruccion.fijarTipo(TipoPrenda.CAMISA);
     prendaEnConstruccion.fijarComposicion(Composicion.CUERO);
     RuntimeException excepcion =
-        assertThrows(PrendaInvalidaException.class, (() -> prendaEnConstruccion.build()));
+        assertThrows(PrendaInvalidaException.class, (prendaEnConstruccion::build));
     assertEquals(excepcion.getMessage(),
         "No se puede construir la prenda, tiene componentes faltantes!");
   }

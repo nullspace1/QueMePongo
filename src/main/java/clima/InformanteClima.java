@@ -26,7 +26,7 @@ public class InformanteClima {
     }
 
     private boolean hayDatosActualizados() {
-        return horasDesdeUltimaMedida() <= proveedor.tiempoDeValidez();
+        return horasDesdeUltimaMedida() <= proveedor.tiempoDeValidezDeDatos();
     }
 
     private Long horasDesdeUltimaMedida(){
