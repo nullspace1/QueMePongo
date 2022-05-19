@@ -10,7 +10,7 @@ public class InformanteClima {
     private static InformanteClima INSTANCE = new InformanteClima(new ProveedorClimaAccuWeather());
     private ProveedorClima proveedor;
     private List<Clima> ultimosDatosClima;
-    private LocalDateTime fechaUltimaObtencion;
+    private LocalDateTime fechaUltimaObtencion = LocalDateTime.MIN;
 
 
     public Clima obtenerClimaEnBuenosAires(){
@@ -26,11 +26,11 @@ public class InformanteClima {
     }
 
     private boolean hayDatosActualizados() {
-        return horasDesdeUltimaMedida() <= 12;
+        return horasDesdeUltimaMedida() <= proveedor.tiempoDeValidez();
     }
 
     private Long horasDesdeUltimaMedida(){
-        return TimeUnit.SECONDS.toHours(Duration.between(LocalDateTime.now(),fechaUltimaObtencion).getSeconds());
+        return TimeUnit.SECONDS.toHours(Duration.between(fechaUltimaObtencion,LocalDateTime.now()).abs().getSeconds());
     }
 
     private void actualizarBuffer(List<Clima> climaNuevo) {
@@ -53,4 +53,7 @@ public class InformanteClima {
         this.proveedor = proveedor;
     }
 
+    public void reset(){
+        INSTANCE.fechaUltimaObtencion = LocalDateTime.MIN;
+    }
 }
