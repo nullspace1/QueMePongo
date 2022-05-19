@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -46,7 +47,7 @@ public class ClimaTests {
 
 
     private List<Clima> listaClima(){
-        return Arrays.asList(new Clima(0.0,20.0));
+        return Collections.singletonList(new Clima(0.0, 20));
     }
 
 }

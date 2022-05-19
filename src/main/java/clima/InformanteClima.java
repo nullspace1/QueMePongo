@@ -15,7 +15,7 @@ public class InformanteClima {
 
     public Clima obtenerClimaEnBuenosAires(){
         if (!hayDatosActualizados()){
-            List<Clima> climaNuevo = proveedor.getWeather("Buenos Aires");
+            List<Clima> climaNuevo = proveedor.getWeather("Buenos Aires, Argentina");
             actualizarBuffer(climaNuevo);
         }
         return climaAhora();

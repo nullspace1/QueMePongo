@@ -2,6 +2,7 @@ package clima;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -22,11 +23,11 @@ public class ProveedorClimaAccuWeather implements ProveedorClima{
     }
 
     private Clima obtenerClima(Map<String,Object> dato){
-        return new Clima((Double)dato.get("PrecipitationProbability"),enCelcius((Double) dato.get("Temperature")));
+        return new Clima((Double)dato.get("PrecipitationProbability"),enCelcius((Integer)(((HashMap<String, Object>)dato.get("Temperature")).get("Value"))));
     }
 
-    private Double enCelcius(Double temperaturaEnMalasUnidades){
-        return (temperaturaEnMalasUnidades - 32.0) * 5.0 / 9.0;
+    private Integer enCelcius(Integer temperaturaEnMalasUnidades){
+        return Integer.divideUnsigned((temperaturaEnMalasUnidades - 32)*5,9);
     }
 
 

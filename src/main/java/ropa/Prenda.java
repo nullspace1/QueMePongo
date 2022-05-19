@@ -10,11 +10,11 @@ public class Prenda {
   private Color colorPrimario;
   private Color colorSecundario;
 
-  private Double temperaturaMaxima;
+  private Integer temperaturaMaxima;
 
 
   public Prenda(TipoPrenda tipo, Color colorPrimario, Color colorSecundario,
-      Composicion composicion, Trama trama,Double temperaturaMaxima) {
+      Composicion composicion, Trama trama,Integer temperaturaMaxima) {
     this.tipo = tipo;
     this.colorPrimario = colorPrimario;
     this.colorSecundario = colorSecundario;
@@ -31,6 +31,9 @@ public class Prenda {
   }
 
   public boolean satisfaceCondicionesDe(Clima climaActual) {
-    return climaActual.getTemperatura() < this.temperaturaMaxima;
+    return climaActual.getTemperatura() <= this.temperaturaMaxima;
+  }
+  public Categoria getCategoria() {
+    return this.tipo.getCategoria();
   }
 }

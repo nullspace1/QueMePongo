@@ -4,18 +4,20 @@ package tests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.Set;
+
+import clima.Clima;
+import clima.InformanteClima;
+import clima.ProveedorClima;
 import org.junit.jupiter.api.Test;
 import prototype.AdministradorUniformes;
 import prototype.Uniforme;
-import ropa.Borrador;
-import ropa.Color;
-import ropa.Composicion;
-import ropa.Prenda;
-import ropa.PrendaInvalidaException;
-import ropa.TipoPrenda;
-import ropa.Trama;
+import ropa.*;
 
 public class PrendaTests {
 
@@ -26,6 +28,7 @@ public class PrendaTests {
     prendaEnConstruccion.fijarTipo(TipoPrenda.CAMISA);
     prendaEnConstruccion.fijarColorPrimario(new Color(255, 0, 0));
     prendaEnConstruccion.fijarComposicion(Composicion.CUERO);
+    prendaEnConstruccion.fijarTemperaturaMaxima(10);
     Prenda prenda = prendaEnConstruccion.build();
     assertEquals(prenda.getTrama(), Trama.LISA);
   }
@@ -59,6 +62,24 @@ public class PrendaTests {
     assertTrue(sugerencias.contains(uniforme));
   }
 
+  @Test
+  public void recibirSugerenciaAtuendosEnBaseALaRopa(){
+    Guardaropa guardaropa = new Guardaropa();
+    guardaropa.add(prendaInferior());
+    Atuendo atuendo = guardaropa.getSugerencia();
+    assertEquals(atuendo.getDeCategoria(Categoria.PARTE_INFERIOR).getTrama(),prendaInferior().getTrama());
+  }
+
+  @Test
+  public void sugerenciasFiltraAcordeATemperatura(){
+    fijarClima();
+    Guardaropa guardaropa = new Guardaropa();
+    guardaropa.add(prendaQuePasa());
+    guardaropa.add(prendaQueNoPasa());
+    Atuendo atuendo = guardaropa.getSugerencia();
+    assertEquals(atuendo.getDeCategoria(Categoria.PARTE_SUPERIOR).getTrama(),prendaQuePasa().getTrama());
+  }
+
   public Uniforme crearUniforme(String institucion) {
     Prenda prendaSuperior = prendaSuperior();
     Prenda prendaInferior = prendaInferior();
@@ -68,18 +89,35 @@ public class PrendaTests {
 
   private Prenda prendaSuperior() {
     return new Borrador(Trama.CUADRADO).fijarTipo(TipoPrenda.CAMISA)
-        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.CUERO).build();
+        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.CUERO).fijarTemperaturaMaxima(200).build();
+  }
+
+  private Prenda prendaQueNoPasa(){
+    return new Borrador(Trama.CUADRADO).fijarTipo(TipoPrenda.CAMISA)
+            .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.JEAN).fijarTemperaturaMaxima(10).build();
+  }
+
+  private Prenda prendaQuePasa(){
+    return new Borrador(Trama.CUADRADO).fijarTipo(TipoPrenda.CAMISA)
+            .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.CUERO).fijarTemperaturaMaxima(25).build();
   }
 
   private Prenda prendaInferior() {
     return new Borrador(Trama.LISA).fijarTipo(TipoPrenda.PANTALON)
-        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.JEAN).build();
+        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.JEAN).fijarTemperaturaMaxima(200).build();
   }
 
   private Prenda calzado() {
     return new Borrador(Trama.LISA).fijarTipo(TipoPrenda.ZAPATOS)
-        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.CUERO).build();
+        .fijarColorPrimario(new Color(100, 100, 100)).fijarComposicion(Composicion.CUERO).fijarTemperaturaMaxima(200).build();
   }
+
+  private void fijarClima(){
+    ProveedorClima proveedorClima = mock(ProveedorClima.class);
+    when(proveedorClima.getWeather(anyString())).thenReturn(Arrays.asList(new Clima(0.0,15)));
+    InformanteClima.getInstance().cambiarProveedor(proveedorClima);
+  }
+
 
 
 

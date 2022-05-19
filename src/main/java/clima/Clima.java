@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Clima {
-    private Double probabilidadLluvia;
-    private Double temperatura;
+    private final Double probabilidadLluvia;
+    private final Integer temperatura;
 
-    public Clima(Double probabilidadLluvia, Double temperatura){
+    public Clima(Double probabilidadLluvia, Integer temperatura){
         this.probabilidadLluvia = probabilidadLluvia;
         this.temperatura = temperatura;
     }
@@ -16,7 +16,7 @@ public class Clima {
         return probabilidadLluvia;
     }
 
-    public Double getTemperatura() {
+    public Integer getTemperatura() {
         return temperatura;
     }
 

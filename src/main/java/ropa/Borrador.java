@@ -8,7 +8,7 @@ public class Borrador {
   private Color colorPrimario;
   private Color colorSecundario;
 
-  private Double temperaturaMaxima;
+  private Integer temperaturaMaxima;
 
   public Borrador(Trama tramaDefault) {
     this.trama = tramaDefault;
@@ -41,13 +41,13 @@ public class Borrador {
 
   }
 
-  public Borrador fijarTemperaturaMaxima(Double temperaturaMaxima){
+  public Borrador fijarTemperaturaMaxima(Integer temperaturaMaxima){
     this.temperaturaMaxima = temperaturaMaxima;
     return this;
   }
 
   public boolean esPrendaValida() {
-    return (this.tipo != null && this.composicion != null && this.colorPrimario != null);
+    return (this.tipo != null && this.composicion != null && this.colorPrimario != null && this.temperaturaMaxima != null);
   }
 
 

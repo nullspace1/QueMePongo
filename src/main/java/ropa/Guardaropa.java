@@ -1,27 +1,50 @@
 package ropa;
 
 import clima.Clima;
+import clima.InformanteClima;
 
-import java.security.Guard;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Guardaropa {
 
     private Map<Categoria,List<Prenda>> prendasDisponibles  = new HashMap<>();
-    public Guardaropa filtrarPrendasAcorde(Clima climaActual) {
-        Map<Categoria,List<Prenda>> prendasAcordeClima = new HashMap<>(prendasDisponibles).entrySet().stream().collect(Collectors.toMap(entrada -> entrada.getKey(),valor ->  valor.getValue().stream().filter(prenda -> prenda.satisfaceCondicionesDe(climaActual)).collect(Collectors.toList())));
-        return new Guardaropa(prendasAcordeClima);
+
+    public Atuendo getSugerencia(){
+        Clima climaActual = InformanteClima.getInstance().obtenerClimaEnBuenosAires();
+        Guardaropa guardaropaAcordeAlClima = this.filtrarPrendasAcorde(climaActual);
+        return getSugerenciaFrom(guardaropaAcordeAlClima);
     }
 
-    public Prenda getOf(Categoria categoria) {
-        return prendasDisponibles.get(categoria).stream().findAny().get();
+    private Atuendo getSugerenciaFrom(Guardaropa guardaropaAcordeAlClima) {
+        Atuendo atuendo = new Atuendo();
+        guardaropaAcordeAlClima.prendasDisponibles.forEach((k,v) -> atuendo.agregarPrenda(v.stream().findAny().get()));
+        return atuendo;
+    }
+
+    public void add(Prenda prenda){
+        prendasDisponibles.putIfAbsent(prenda.getCategoria(), new ArrayList<>());
+        List<Prenda> lista = prendasDisponibles.get(prenda.getCategoria());
+        lista.add(prenda);
+       prendasDisponibles.put(prenda.getCategoria(), lista);
     }
 
     private Guardaropa(Map<Categoria,List<Prenda>> prendasDisponibles){
         this.prendasDisponibles = prendasDisponibles;
+    }
+
+    private Guardaropa filtrarPrendasAcorde(Clima climaActual) {
+        Map<Categoria,List<Prenda>> prendasAcordeClima = new HashMap<>(prendasDisponibles).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, valor ->  valor.getValue().stream().filter(prenda -> prenda.satisfaceCondicionesDe(climaActual)).collect(Collectors.toList())));
+        return new Guardaropa(prendasAcordeClima);
+    }
+
+    public Guardaropa(){
+
     }
 }
