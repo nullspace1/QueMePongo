@@ -14,12 +14,25 @@ import java.util.Set;
 import clima.Clima;
 import clima.InformanteClima;
 import clima.ProveedorClima;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prototype.AdministradorUniformes;
 import prototype.Uniforme;
 import ropa.*;
 
 public class PrendaTests {
+
+  private Guardaropa guardaropa;
+  private Usuario usuario;
+
+  @BeforeEach
+  private void prepGuardaRopa(){
+    usuario = new Usuario();
+    usuario.crearGuardaropas("Test");
+    guardaropa = new GuardaropaIndividual("test",usuario);
+    usuario.agregarGuardaropas(guardaropa);
+
+  }
 
 
   @Test
@@ -64,8 +77,8 @@ public class PrendaTests {
 
   @Test
   public void recibirSugerenciaAtuendosEnBaseALaRopa(){
-    Guardaropa guardaropa = new Guardaropa();
-    guardaropa.add(prendaInferior());
+
+    guardaropa.add(prendaInferior(),usuario);
     Atuendo atuendo = guardaropa.getSugerencia();
     assertEquals(atuendo.getDeCategoria(Categoria.PARTE_INFERIOR).getTrama(),prendaInferior().getTrama());
   }
@@ -73,9 +86,8 @@ public class PrendaTests {
   @Test
   public void sugerenciasFiltraAcordeATemperatura(){
     fijarClima();
-    Guardaropa guardaropa = new Guardaropa();
-    guardaropa.add(prendaQuePasa());
-    guardaropa.add(prendaQueNoPasa());
+    guardaropa.add(prendaQuePasa(),usuario);
+    guardaropa.add(prendaQueNoPasa(),usuario);
     Atuendo atuendo = guardaropa.getSugerencia();
     assertEquals(atuendo.getDeCategoria(Categoria.PARTE_SUPERIOR).getTrama(),prendaQuePasa().getTrama());
   }
