@@ -1,7 +1,5 @@
 package ropa;
 
-import java.util.*;
-
 /**
  * 
  */
@@ -15,11 +13,17 @@ public abstract class Propuesta {
     protected Prenda prenda;
     protected Guardaropa guardaropa;
 
-    public abstract void hacer(Usuario permitido);
+    public abstract void aceptar();
 
-    public abstract void deshacer(Usuario permitido);
+    public void rechazar(){
+        guardaropa.getPropuestasPendientes().remove(this);
+    }
+
+    public abstract void deshacer();
 
     public void setGuardaropa(Guardaropa guardaropa) {
         this.guardaropa = guardaropa;
     }
+
+
 }

@@ -8,12 +8,14 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
+
+import java.util.Collections;
 import java.util.Set;
 
 import clima.Clima;
 import clima.InformanteClima;
 import clima.ProveedorClima;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prototype.AdministradorUniformes;
@@ -23,15 +25,11 @@ import ropa.*;
 public class PrendaTests {
 
   private Guardaropa guardaropa;
-  private Usuario usuario;
 
   @BeforeEach
   private void prepGuardaRopa(){
-    usuario = new Usuario();
-    usuario.crearGuardaropas("Test");
-    guardaropa = new GuardaropaIndividual("test",usuario);
-    usuario.agregarGuardaropas(guardaropa);
-
+    Usuario usuario = new Usuario();
+    guardaropa = new Guardaropa("test", usuario);
   }
 
 
@@ -78,7 +76,7 @@ public class PrendaTests {
   @Test
   public void recibirSugerenciaAtuendosEnBaseALaRopa(){
 
-    guardaropa.add(prendaInferior(),usuario);
+    guardaropa.add(prendaInferior());
     Atuendo atuendo = guardaropa.getSugerencia();
     assertEquals(atuendo.getDeCategoria(Categoria.PARTE_INFERIOR).getTrama(),prendaInferior().getTrama());
   }
@@ -86,11 +84,78 @@ public class PrendaTests {
   @Test
   public void sugerenciasFiltraAcordeATemperatura(){
     fijarClima();
-    guardaropa.add(prendaQuePasa(),usuario);
-    guardaropa.add(prendaQueNoPasa(),usuario);
+    guardaropa.add(prendaQuePasa());
+    guardaropa.add(prendaQueNoPasa());
     Atuendo atuendo = guardaropa.getSugerencia();
     assertEquals(atuendo.getDeCategoria(Categoria.PARTE_SUPERIOR).getTrama(),prendaQuePasa().getTrama());
   }
+
+  @Test
+  public void puedoCrearArmario(){
+    Usuario usuarioDuenio = new Usuario();
+    Guardaropa guardaropa = new Guardaropa("test",usuarioDuenio);
+    Prenda prenda = prendaSuperior();
+    guardaropa.add(prenda);
+    Assertions.assertTrue(guardaropa.getListaPrendas().contains(prenda));
+  }
+
+  @Test
+  public void usuarioPuedeAceptarPropuestas(){
+    Usuario usuarioDuenio = new Usuario();
+    Guardaropa guardaropa = new Guardaropa("Test",usuarioDuenio);
+
+    Prenda prenda = prendaSuperior();
+    Propuesta propuesta = new PropuestaAgregado(prenda);
+    guardaropa.agregarPropuesta(propuesta);
+
+    propuesta.aceptar();
+
+    Assertions.assertTrue(guardaropa.getPropuestasAceptadas().contains(propuesta));
+    Assertions.assertTrue(guardaropa.getListaPrendas().contains(prenda));
+  }
+
+  @Test
+  public void usuarioPuedeDenegarPropuestas(){
+    Usuario usuarioDuenio = new Usuario();
+    Guardaropa guardaropa = new Guardaropa("Test",usuarioDuenio);
+
+    Prenda prenda = prendaSuperior();
+    Propuesta propuesta = new PropuestaAgregado(prenda);
+    guardaropa.agregarPropuesta(propuesta);
+
+    propuesta.rechazar();
+
+    Assertions.assertFalse(guardaropa.getPropuestasPendientes().contains(propuesta));
+    Assertions.assertFalse(guardaropa.getListaPrendas().contains(prenda));
+  }
+
+  @Test
+  public void usuarioPuedeDeshacerPropuesta(){
+    Usuario usuarioDuenio = new Usuario();
+    Guardaropa guardaropa = new Guardaropa("Test",usuarioDuenio);
+
+    Prenda prenda = prendaSuperior();
+    Propuesta propuesta = new PropuestaAgregado(prenda);
+    guardaropa.agregarPropuesta(propuesta);
+
+    propuesta.aceptar();
+    propuesta.deshacer();
+
+    Assertions.assertFalse(guardaropa.getListaPrendas().contains(prenda));
+  }
+
+
+
+  @Test
+  public void puedoCrearArmarioCompartido(){
+    Usuario usuarioDuenio = new Usuario();
+    Usuario otroUsuario = new Usuario();
+    Guardaropa guardaropaCompartido = new Guardaropa("test",usuarioDuenio);
+    guardaropaCompartido.agregarUsuario(usuarioDuenio,otroUsuario);
+
+    Assertions.assertTrue(guardaropaCompartido.getUsuarios().contains(otroUsuario));
+  }
+
 
   public Uniforme crearUniforme(String institucion) {
     Prenda prendaSuperior = prendaSuperior();
@@ -126,7 +191,7 @@ public class PrendaTests {
 
   private void fijarClima(){
     ProveedorClima proveedorClima = mock(ProveedorClima.class);
-    when(proveedorClima.getWeather(anyString())).thenReturn(Arrays.asList(new Clima(0.0,15)));
+    when(proveedorClima.getWeather(anyString())).thenReturn(Collections.singletonList(new Clima(0.0, 15)));
     InformanteClima.getInstance().cambiarProveedor(proveedorClima);
   }
 

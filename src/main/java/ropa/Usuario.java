@@ -11,18 +11,16 @@ public class Usuario {
 
     private final Set<Guardaropa> guardaropas = new HashSet<>();
 
-    public void crearGuardaropas(String nombre){
-        Guardaropa guardaropa = new GuardaropaIndividual(nombre,this);
-        guardaropas.add(guardaropa);
-    }
-
     public Set<Guardaropa> getGuardaropas() {
         return guardaropas;
     }
 
-   public void aceptarPropuesta(Propuesta propuesta){
-        propuesta.hacer(this);
-   }
+
+    public Guardaropa getGuaradaropasCon(String nombre){
+        Optional<Guardaropa> guardaropaOptional = guardaropas.stream().filter(guardaropa -> guardaropa.nombre == nombre).findAny();
+        if (guardaropaOptional.isPresent()) return guardaropaOptional.get();
+        else throw new NoExisteGuaradaropaException("No se posee un guardaropas con ese nombre!");
+    }
 
    public void agregarGuardaropas(Guardaropa guardaropa){
         guardaropas.add(guardaropa);

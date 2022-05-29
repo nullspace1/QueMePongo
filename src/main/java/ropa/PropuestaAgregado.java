@@ -10,17 +10,20 @@ import java.util.*;
 public class PropuestaAgregado extends Propuesta {
 
 
-    public PropuestaAgregado(Guardaropa guardaropa, Prenda prenda) {
+    public PropuestaAgregado(Prenda prenda) {
         super(prenda);
     }
 
     @Override
-    public void hacer (Usuario usuarioPermitido) {
-        guardaropa.add(this.prenda,usuarioPermitido);
+    public void aceptar() {
+        guardaropa.add(this.prenda);
+        guardaropa.getPropuestasPendientes().remove(this);
+        guardaropa.getPropuestasAceptadas().add(this);
     }
 
     @Override
-    public void deshacer(Usuario usuarioPermitido) {
-        guardaropa.remove(this.prenda,usuarioPermitido);
+    public void deshacer() {
+        guardaropa.remove(this.prenda);
+
     }
 }

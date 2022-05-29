@@ -14,13 +14,13 @@ public class PropuestaQuitado extends Propuesta {
     }
 
     @Override
-    public void hacer(Usuario usuario) {
-        guardaropa.remove(this.prenda,usuario);
+    public void aceptar() {
+        guardaropa.remove(this.prenda);
     }
 
     @Override
-    public void deshacer(Usuario usuario) {
-        guardaropa.add(this.prenda,usuario);
+    public void deshacer() {
+        guardaropa.add(this.prenda);
     }
 
 }

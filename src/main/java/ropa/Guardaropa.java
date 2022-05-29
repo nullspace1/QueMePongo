@@ -4,31 +4,41 @@ import clima.Clima;
 import clima.InformanteClima;
 
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.Charset;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class Guardaropa {
+public class Guardaropa {
 
     protected String nombre;
-    private final Map<Categoria,List<Prenda>> prendasDisponibles  = new HashMap<>();
+    private final List<Usuario> usuarioList = new ArrayList<>();
+    private final Map<Categoria,Set<Prenda>> prendasDisponibles  = new HashMap<>();
     private final List<Propuesta> propuestasPendientes = new ArrayList<>();
     private final List<Propuesta> propuestasAceptadas = new ArrayList<>();
 
-    public void add(Prenda prenda, Usuario usuario){
-        verificarSeguridad(usuario);
-        prendasDisponibles.putIfAbsent(prenda.getCategoria(), new ArrayList<>());
-        List<Prenda> lista = prendasDisponibles.get(prenda.getCategoria());
+
+
+    public Guardaropa(String nombre,Usuario usuarioDuenio){
+        this.nombre = nombre;
+        this.usuarioList.add(usuarioDuenio);
+    }
+    public void agregarUsuario(Usuario usuarioQueIntento,Usuario usuario){
+        usuarioList.add(usuario);
+    }
+
+    public void quitarUsuario(Usuario usuario){
+        usuarioList.add(usuario);
+    }
+
+    public void add(Prenda prenda){
+        prendasDisponibles.putIfAbsent(prenda.getCategoria(), new HashSet<>());
+        Set<Prenda> lista = prendasDisponibles.get(prenda.getCategoria());
         lista.add(prenda);
        prendasDisponibles.put(prenda.getCategoria(), lista);
     }
 
-    public void remove(Prenda prenda, Usuario usuario){
-        verificarSeguridad(usuario);
-        List<Prenda> listaDondeEsta = prendasDisponibles.get(prenda.getCategoria());
+    public void remove(Prenda prenda){
+        Set<Prenda> listaDondeEsta = prendasDisponibles.get(prenda.getCategoria());
         listaDondeEsta.remove(prenda);
     }
 
@@ -41,7 +51,7 @@ public abstract class Guardaropa {
         return this.propuestasPendientes;
     }
 
-    public List<Propuesta> getPropuestasAceptas() {
+    public List<Propuesta> getPropuestasAceptadas() {
         return this.propuestasAceptadas;
     }
 
@@ -50,6 +60,7 @@ public abstract class Guardaropa {
         Map<Categoria,List<Prenda>> guardaropaAcordeAlClima = this.filtrarPrendasAcorde(climaActual);
         return tomarAtuendosDe(guardaropaAcordeAlClima);
     }
+
 
     private Atuendo tomarAtuendosDe(Map<Categoria,List<Prenda>> guardaropaAcordeAlClima) {
         Atuendo atuendo = new Atuendo();
@@ -61,6 +72,11 @@ public abstract class Guardaropa {
         return new HashMap<>(prendasDisponibles).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, valor ->  valor.getValue().stream().filter(prenda -> prenda.satisfaceCondicionesDe(climaActual)).collect(Collectors.toList())));
     }
 
+    public Set<Prenda> getListaPrendas(){
+        return prendasDisponibles.values().stream().reduce(new HashSet<>(),(x,y)->{x.addAll(y); return x;});
+    }
 
-    protected abstract void verificarSeguridad(Usuario usuario);
+    public List<Usuario> getUsuarios() {
+        return usuarioList;
+    }
 }
