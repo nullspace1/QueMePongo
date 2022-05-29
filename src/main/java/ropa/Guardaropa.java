@@ -2,16 +2,13 @@ package ropa;
 
 import clima.Clima;
 import clima.InformanteClima;
-
-
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Guardaropa {
 
     protected String nombre;
-    private final List<Usuario> usuarioList = new ArrayList<>();
+    private final List<Usuario> usuarios = new ArrayList<>();
     private final Map<Categoria,Set<Prenda>> prendasDisponibles  = new HashMap<>();
     private final List<Propuesta> propuestasPendientes = new ArrayList<>();
     private final List<Propuesta> propuestasAceptadas = new ArrayList<>();
@@ -20,14 +17,14 @@ public class Guardaropa {
 
     public Guardaropa(String nombre,Usuario usuarioDuenio){
         this.nombre = nombre;
-        this.usuarioList.add(usuarioDuenio);
+        this.usuarios.add(usuarioDuenio);
     }
     public void agregarUsuario(Usuario usuarioQueIntento,Usuario usuario){
-        usuarioList.add(usuario);
+        usuarios.add(usuario);
     }
 
     public void quitarUsuario(Usuario usuario){
-        usuarioList.add(usuario);
+        usuarios.add(usuario);
     }
 
     public void add(Prenda prenda){
@@ -77,6 +74,6 @@ public class Guardaropa {
     }
 
     public List<Usuario> getUsuarios() {
-        return usuarioList;
+        return usuarios;
     }
 }
