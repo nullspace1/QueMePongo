@@ -151,7 +151,7 @@ public class PrendaTests {
     Usuario usuarioDuenio = new Usuario();
     Usuario otroUsuario = new Usuario();
     Guardaropa guardaropaCompartido = new Guardaropa("test",usuarioDuenio);
-    guardaropaCompartido.agregarUsuario(usuarioDuenio,otroUsuario);
+    guardaropaCompartido.agregarUsuario(otroUsuario);
 
     Assertions.assertTrue(guardaropaCompartido.getUsuarios().contains(otroUsuario));
   }

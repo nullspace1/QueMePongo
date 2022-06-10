@@ -19,7 +19,7 @@ public class Guardaropa {
         this.nombre = nombre;
         this.usuarios.add(usuarioDuenio);
     }
-    public void agregarUsuario(Usuario usuarioQueIntento,Usuario usuario){
+    public void agregarUsuario(Usuario usuario){
         usuarios.add(usuario);
     }
 
