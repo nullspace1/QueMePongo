@@ -24,5 +24,10 @@ public final class AccuWeatherAPI {
                 }});
             }});
         }
+
+        public final Map<String,List<String>> getAlertas(String city){
+            // CODIGO SUPER AVANZADO ACA
+            return new HashMap<>();
+        }
     }
 

@@ -1,7 +1,7 @@
 package ropa;
 
+import Admin.ClimaController;
 import clima.Clima;
-import clima.InformanteClima;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,7 +53,7 @@ public class Guardaropa {
     }
 
     public Atuendo getSugerencia(){
-        Clima climaActual = InformanteClima.getInstance().obtenerClimaEnBuenosAires();
+        Clima climaActual = ClimaController.getInstance().getClima();
         Map<Categoria,List<Prenda>> guardaropaAcordeAlClima = this.filtrarPrendasAcorde(climaActual);
         return tomarAtuendosDe(guardaropaAcordeAlClima);
     }

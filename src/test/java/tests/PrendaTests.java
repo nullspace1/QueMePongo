@@ -9,11 +9,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
+import Admin.ClimaController;
 import java.util.Collections;
 import java.util.Set;
 
 import clima.Clima;
-import clima.InformanteClima;
+
 import clima.ProveedorClima;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ public class PrendaTests {
 
   @BeforeEach
   private void prepGuardaRopa(){
-    Usuario usuario = new Usuario();
+    Usuario usuario = getUsuario();
     guardaropa = new Guardaropa("test", usuario);
   }
 
@@ -75,7 +76,7 @@ public class PrendaTests {
 
   @Test
   public void recibirSugerenciaAtuendosEnBaseALaRopa(){
-
+    fijarClima();
     guardaropa.add(prendaInferior());
     Atuendo atuendo = guardaropa.getSugerencia();
     assertEquals(atuendo.getDeCategoria(Categoria.PARTE_INFERIOR).getTrama(),prendaInferior().getTrama());
@@ -92,7 +93,7 @@ public class PrendaTests {
 
   @Test
   public void puedoCrearArmario(){
-    Usuario usuarioDuenio = new Usuario();
+    Usuario usuarioDuenio = getUsuario();
     Guardaropa guardaropa = new Guardaropa("test",usuarioDuenio);
     Prenda prenda = prendaSuperior();
     guardaropa.add(prenda);
@@ -101,7 +102,7 @@ public class PrendaTests {
 
   @Test
   public void usuarioPuedeAceptarPropuestas(){
-    Usuario usuarioDuenio = new Usuario();
+    Usuario usuarioDuenio = getUsuario();
     Guardaropa guardaropa = new Guardaropa("Test",usuarioDuenio);
 
     Prenda prenda = prendaSuperior();
@@ -116,7 +117,7 @@ public class PrendaTests {
 
   @Test
   public void usuarioPuedeDenegarPropuestas(){
-    Usuario usuarioDuenio = new Usuario();
+    Usuario usuarioDuenio = getUsuario();
     Guardaropa guardaropa = new Guardaropa("Test",usuarioDuenio);
 
     Prenda prenda = prendaSuperior();
@@ -131,7 +132,7 @@ public class PrendaTests {
 
   @Test
   public void usuarioPuedeDeshacerPropuesta(){
-    Usuario usuarioDuenio = new Usuario();
+    Usuario usuarioDuenio = getUsuario();
     Guardaropa guardaropa = new Guardaropa("Test",usuarioDuenio);
 
     Prenda prenda = prendaSuperior();
@@ -148,8 +149,8 @@ public class PrendaTests {
 
   @Test
   public void puedoCrearArmarioCompartido(){
-    Usuario usuarioDuenio = new Usuario();
-    Usuario otroUsuario = new Usuario();
+    Usuario usuarioDuenio = getUsuario();
+    Usuario otroUsuario = getUsuario();
     Guardaropa guardaropaCompartido = new Guardaropa("test",usuarioDuenio);
     guardaropaCompartido.agregarUsuario(otroUsuario);
 
@@ -162,6 +163,13 @@ public class PrendaTests {
     Prenda prendaInferior = prendaInferior();
     Prenda calzado = calzado();
     return new Uniforme(prendaSuperior, prendaInferior, calzado, institucion);
+  }
+
+  private Usuario getUsuario(){
+    Usuario usuario = new Usuario("test@mail.com");
+    Guardaropa guardaropa = new Guardaropa("Test",usuario);
+    usuario.agregarGuardaropas(guardaropa);
+    return usuario;
   }
 
   private Prenda prendaSuperior() {
@@ -191,8 +199,8 @@ public class PrendaTests {
 
   private void fijarClima(){
     ProveedorClima proveedorClima = mock(ProveedorClima.class);
-    when(proveedorClima.getWeather(anyString())).thenReturn(Collections.singletonList(new Clima(0.0, 15)));
-    InformanteClima.getInstance().cambiarProveedor(proveedorClima);
+    when(proveedorClima.getWeather(anyString())).thenReturn((new Clima(0.0, 15)));
+    ClimaController.getInstance().setProveedorClima(proveedorClima);
   }
 
 

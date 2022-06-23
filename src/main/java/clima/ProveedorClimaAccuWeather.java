@@ -11,20 +11,27 @@ import java.util.stream.Collectors;
 public class ProveedorClimaAccuWeather implements ProveedorClima{
 
     @Override
-    public List<Clima> getWeather(String lugar) {
+    public Clima getWeather(String lugar) {
         List<Map<String, Object>> rawClimateData = new AccuWeatherAPI().getWeather(lugar);
         return obtenerClimaDeRawData(rawClimateData);
     }
 
-    public List<Clima> obtenerClimaDeRawData(List<Map<String,Object>> rawData){
-       return rawData.stream().map(this::obtenerClima).collect(Collectors.toList());
-    }
-
-
     @Override
-    public int tiempoDeValidezDeDatos() {
-        return 12;
+    public List<Alerta> getAlertas(String lugar) {
+        AccuWeatherAPI apiClima = new AccuWeatherAPI();
+        Map<String, List<String>> alertas = apiClima.getAlertas("Buenos Aires");
+       return alertas.get("CurrentAlerts").stream().map(this::traducirAlerta).collect(Collectors.toList());
     }
+
+    private Alerta traducirAlerta(String alertaEnIngles) {
+        // no va al caso para el ejercicio
+        return Alerta.GRANIZO;
+    }
+
+    public Clima obtenerClimaDeRawData(List<Map<String,Object>> rawData){
+       return rawData.stream().map(this::obtenerClima).collect(Collectors.toList()).get(0);
+    }
+
 
     private Clima obtenerClima(Map<String,Object> dato){
         return new Clima((Double)dato.get("PrecipitationProbability"),enCelcius((Integer)(((HashMap<String, Object>)dato.get("Temperature")).get("Value"))));
