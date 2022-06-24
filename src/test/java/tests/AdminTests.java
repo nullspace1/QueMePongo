@@ -11,7 +11,7 @@ import Admin.ClimaController;
 import Admin.DataProvider;
 import Admin.MailService;
 import Admin.NotificationService;
-import Admin.UserContainer;
+import Admin.UserEvents;
 import Notificaciones.ActualizarGuardaropa;
 import Notificaciones.AlertaObserver;
 import Notificaciones.NotificacionMail;
@@ -50,7 +50,7 @@ public class AdminTests {
     notificationService = mock(NotificationService.class);
     climaProvider = mock(ProveedorClima.class);
     ClimaController.getInstance().setProveedorClima(climaProvider);
-    ClimaController.getInstance().setUserController(new UserContainer(dataProvider));
+    ClimaController.getInstance().setUserController(new UserEvents(dataProvider));
     when(climaProvider.getWeather(anyString())).thenReturn(new Clima(0.3,999));
   }
 
@@ -64,10 +64,10 @@ public class AdminTests {
   @Test
   public void dispararCalculoDeSugerencias(){
     Usuario usuario = mock(Usuario.class);
-    UserContainer userContainer = new UserContainer(dataProvider);
+    UserEvents userEvents = new UserEvents(dataProvider);
     when(dataProvider.getDataFrom(anyString())).thenReturn(new ArrayList<>(
         Collections.singletonList(usuario)));
-    userContainer.generarNuevasSugerencias();
+    userEvents.generarNuevasSugerencias();
     verify(usuario).generarSugerenciaDiaria();
   }
 

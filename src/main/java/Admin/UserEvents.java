@@ -4,10 +4,10 @@ import clima.Alerta;
 import java.util.List;
 import ropa.Usuario;
 
-public class UserContainer {
+public class UserEvents {
   private final DataProvider proveedorUsuarios;
 
-  public UserContainer(DataProvider dataProvider) {
+  public UserEvents(DataProvider dataProvider) {
     this.proveedorUsuarios = dataProvider;
   }
   public List<Usuario> getUsuarios() {

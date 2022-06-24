@@ -10,7 +10,7 @@ import java.util.List;
 public class ClimaController {
 
   private static final ClimaController INSTANCE = new ClimaController();
-  private UserContainer userContainer;
+  private UserEvents userEvents;
   private ProveedorClima proveedorClima;
   private List<Alerta> alertasMasRecientes = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class ClimaController {
     List<Alerta> alertasActualizadas = proveedorClima.getAlertas("Buenos Aires,Argentina");
     if (cambiaronLasAlertas(alertasActualizadas)) {
       alertasMasRecientes = alertasActualizadas;
-      userContainer.notificarUsuarios(alertasMasRecientes);
+      userEvents.notificarUsuarios(alertasMasRecientes);
     }
   }
 
@@ -38,8 +38,8 @@ public class ClimaController {
     this.proveedorClima = proveedorClima;
   }
 
-  public void setUserController(UserContainer userContainer){
-    this.userContainer = userContainer;
+  public void setUserController(UserEvents userEvents){
+    this.userEvents = userEvents;
   }
 
 
